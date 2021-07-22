@@ -64,13 +64,28 @@ router.put('/:favId', (req, res) => {
       console.log('Error completing UPDATE query', err);
       res.sendStatus(500);
     });
-  res.sendStatus(200);
 });
 
 // delete a favorite
 // delete from favorites table
-router.delete('/', (req, res) => {
-  res.sendStatus(200);
+router.delete('/:favId', (req, res) => {
+  const favId = req.params.favId;
+  const queryText = `
+    DELETE FROM "favorites"
+    WHERE "id" = $1;
+  `;
+  const queryValues = [
+    favId
+  ];
+  pool.query(queryText, queryValues)
+    .then(() => {
+      console.log('DELETE successful');
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log('Error completing DELETE query', err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
