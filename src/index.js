@@ -77,7 +77,7 @@ function* gifCategory() {
 
 
 //reducers go here
-const searchReducer = (state = '', action) => {
+const searchReducer = (state = [], action) => {
     switch (action.type) {
         case "GET_GIF":
             console.log('Getting GIF', action.payload);
