@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import SearchItem from '../SearchItem/SearchItem';
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,10 +10,14 @@ import Grid from "@material-ui/core/Grid";
 
 function SearchPage() {
     const [searchTerm, setSearchTerm] = useState('');
+    const dispatch = useDispatch();
 
     const search = (searchTerm) => {
         console.log(`Searching for ${searchTerm} on GIPHY`);
-
+        dispatch({
+            type: 'GET_GIF',
+            payload: searchTerm
+        });
     };
       
     return (

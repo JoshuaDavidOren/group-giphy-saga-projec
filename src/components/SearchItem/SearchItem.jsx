@@ -7,7 +7,8 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
-function SearchItem(item) {
+function SearchItem() {
+    const [searchItem, setSearchItem] = useState([]);
     const classes = useStyles();
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -20,12 +21,16 @@ function SearchItem(item) {
         }
       }));
 
-    const addFavorite = () => {
+    const addFavorite = (item) => {
         console.log('Adding to favorites', item);
+        dispatch({
+            type: 'ADD_FAVORITE',
+            payload: item
+        });
     };
 
     return (
-        <Grid item style={{ maxWidth: "800px", height: "400px" }}>  
+        <Grid item style={{ maxWidth: "800px", height: "400px" }} id={item.id}>  
           <Paper className={classes.paper}>
             <img src={item.url} />
             <br />
@@ -33,7 +38,7 @@ function SearchItem(item) {
               style={{ width: "170px", height: "42px" }}
               variant="contained"
               color="primary"
-              onClick={addFavorite}
+              onClick={addFavorite(item)}
             >
               Add to Favorites
             </Button>
