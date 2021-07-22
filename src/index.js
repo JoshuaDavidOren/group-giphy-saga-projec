@@ -29,7 +29,7 @@ const searchReducer = (state = '', action) => {
             let results = action.payload.data;
             for (let gif of results) {
                 console.log(gif);
-                searchResults.push({url: gif.url, id: gif.id});
+                searchResults.spread(...state, {url: gif.url, id: gif.id});
             }
             return searchResults;
         default:
@@ -41,7 +41,7 @@ const favoriteReducer = (state = [], action) => {
     switch (action.type) {
         case "ADD_FAVORITE":
             console.log(`Trying to add ${action.payload} to favorites`);
-            state.push(action.payload);
+            state.spread(...state, action.payload);
             return state;
 
         case "REMOVE_FAVORITE":
