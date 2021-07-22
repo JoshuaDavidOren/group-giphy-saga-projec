@@ -53,7 +53,7 @@ router.put('/:favId', (req, res) => {
   `;
   const queryValues = [
     newFavorite.category_id,
-    favID
+    favId
   ];
   pool.query(queryText, queryValues)
     .then(() => {
