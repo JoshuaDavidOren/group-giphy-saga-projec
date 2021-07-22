@@ -1,7 +1,25 @@
+const { default: axios } = require('axios');
 const express = require('express');
 const pool = require('../modules/pool');
 
 const router = express.Router();
+
+
+// GET Seach results from giphy
+router.get('/:search', (req, res) => {
+  const search = req.params.search;
+  axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=7&offset=0&rating=pg-13&lang=en`
+  )
+  .then((response) => {
+    console.log(response.data.data.images.fixed_height.url);
+    res.send(response.map((element) => element.data.data.images.fixed_height.url))
+  })
+  .catch((err) => {
+    console.log('Error GETing giphs from GIPHY',err);
+    res.sendStatus(500);
+  });
+});
+
 
 // return all favorite images
 // GET data from favorites table

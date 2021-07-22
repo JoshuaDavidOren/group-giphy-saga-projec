@@ -19,10 +19,10 @@ function* watcherSaga() {
 }
 
 // Saga's go here
-function* getGiphys() {
-    try {
-        const giphyResponse = yield axios.get('/api');
-        yield put({type: 'GET_GIF'});
+function* getGiphys(search) {
+    try {\
+        const giphyResponse = yield axios.get(`/api/favorite/${search}`);
+        yield put({type: 'GET_GIF', payload: giphyResponse.data});\
     }
     catch(error) {
         console.log('Error in getGiphys', error);
