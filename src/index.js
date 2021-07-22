@@ -21,12 +21,37 @@ function* watcherSaga() {
 
 
 //reducers go here
-const gifReducer = (state = '', action) => {
-    switch (action.type === 'GET_GIF') {
-        
-    }
-}
+const searchReducer = (state = '', action) => {
+    switch (action.type) {
+        case "GET_GIF":
+            console.log('Getting GIF', action.payload.data);
+            let searchResults = [];
+            let results = action.payload.data;
+            for (let gif of results) {
+                console.log(gif);
+                searchResults.spread(...state, {url: gif.url, id: gif.id});
+            }
+            return searchResults;
+        default:
+            return state;
+    };
+};
 
+const favoriteReducer = (state = [], action) => {
+    switch (action.type) {
+        case "ADD_FAVORITE":
+            console.log(`Trying to add ${action.payload} to favorites`);
+            state.spread(...state, action.payload);
+            return state;
+
+        case "REMOVE_FAVORITE":
+            console.log(`Trying to remove ${action.payload} from favorites`);
+            return state;
+
+        default:
+            return state;
+    };
+};
 
 
 // Store instance
