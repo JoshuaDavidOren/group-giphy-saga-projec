@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import App from './components/App/App';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { put, takeEvery, call } from 'redux-saga/core/effects';
-import createSagaMiddleware from 'redux-saga/core';
 import logger from 'redux-logger';
 import axios from 'axios';
 import { response } from 'express';
+// Import saga middleware
+import createSagaMiddleware from 'redux-saga';
+import { call, put, takeEvery } from 'redux-saga/effects';
 
 
 // The watcher saga
