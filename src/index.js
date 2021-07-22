@@ -80,14 +80,14 @@ function* gifCategory() {
 const searchReducer = (state = '', action) => {
     switch (action.type) {
         case "GET_GIF":
-            console.log('Getting GIF', action.payload.data);
+            console.log('Getting GIF', action.payload);
             // let searchResults = [];
             // let results = action.payload.data;
             // for (let gif of results) {
             //     console.log(gif);
             //     searchResults.spread(...state, {url: gif.url, id: gif.id});
             // }
-            return action.payload.data;
+            return action.payload;
         default:
             return state;
     };
