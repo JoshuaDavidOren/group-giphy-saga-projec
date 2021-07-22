@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App/App';
+import App from './components/App/App.js';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import axios from 'axios';
-import { response } from 'express';
+// import { response } from 'express';
 // Import saga middleware
 import createSagaMiddleware from 'redux-saga';
 import { call, put, takeEvery } from 'redux-saga/effects';
@@ -56,7 +56,7 @@ function* getFavorites() {
     try {
         const favResponse = yield axios.get('/')
         // Need to add spot for SET_FAVORITES to be called
-        yield put({type: 'SET_FAVORITES', payload: response.data})
+        yield put({type: 'SET_FAVORITES', payload: favResponse.data})
     }
     catch (error) {
         console.log('Error getting favorites', error);
@@ -114,7 +114,7 @@ const favoriteReducer = (state = [], action) => {
 
 // Store instance
 
-const store = createStore(
+const storeInstance = createStore(
     combineReducers({
         searchReducer,
         favoriteReducer
@@ -126,6 +126,6 @@ const store = createStore(
 
 
 
-ReactDOM.render(<Provider>
+ReactDOM.render(<Provider store={storeInstance}>
     <App />
 </Provider>, document.getElementById('root'));
