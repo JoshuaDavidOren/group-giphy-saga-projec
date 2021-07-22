@@ -7,19 +7,10 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
-function SearchItem() {
+function SearchItem(item) {
     const [searchItem, setSearchItem] = useState([]);
     const classes = useStyles();
-    const useStyles = makeStyles((theme) => ({
-        root: {
-          flexGrow: 1
-        },
-        paper: {
-          padding: theme.spacing(2),
-          textAlign: "center",
-          color: theme.palette.text.secondary
-        }
-      }));
+    const useStyles = makeStyles((theme) => ({root: {flexGrow: 1},paper: {padding: theme.spacing(2), textAlign: "center", color: theme.palette.text.secondary}})); // materialUI stuff
 
     const addFavorite = (item) => {
         console.log('Adding to favorites', item);

@@ -11,8 +11,9 @@ import Grid from "@material-ui/core/Grid";
 function SearchPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
+    const searchReducer = useSelector(store => store.searchReducer);
 
-    const search = (searchTerm) => {
+    const search = () => {
         console.log(`Searching for ${searchTerm} on GIPHY`);
         dispatch({
             type: 'GET_GIF',
@@ -25,8 +26,10 @@ function SearchPage() {
         <TextField style={{ width: "400px" }} id="outlined-search" label="Search GIPHY" type="search" variant="outlined" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}/>
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={search}>Search</Button>
         <Grid container spacing={3}>
-        --MAP THE RESULTS HERE AND PASS THEM INTO SEARCHITEM--
-        <SearchItem key={index} item={item}/>
+        {searchReducer.map((data, index) => {
+            return (
+            <SearchItem key={index} item={data}/>
+            )})}
         </Grid>
         </>
     );
