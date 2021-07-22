@@ -81,6 +81,9 @@ const searchReducer = (state = '', action) => {
     switch (action.type) {
         case "GET_GIF":
             console.log('Getting GIF', action.payload);
+            // I commented out the code that was mutating the state.
+            // For now, let's pass the database response out directly without doing any processing until we know it works.
+            
             // let searchResults = [];
             // let results = action.payload.data;
             // for (let gif of results) {
