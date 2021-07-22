@@ -20,9 +20,9 @@ function* watcherSaga() {
 
 // Saga's go here
 function* getGiphys(search) {
-    try {\
+    try {
         const giphyResponse = yield axios.get(`/api/favorite/${search}`);
-        yield put({type: 'GET_GIF', payload: giphyResponse.data});\
+        yield put({type: 'GET_GIF', payload: giphyResponse.data});
     }
     catch(error) {
         console.log('Error in getGiphys', error);
@@ -80,13 +80,13 @@ const searchReducer = (state = '', action) => {
     switch (action.type) {
         case "GET_GIF":
             console.log('Getting GIF', action.payload.data);
-            let searchResults = [];
-            let results = action.payload.data;
-            for (let gif of results) {
-                console.log(gif);
-                searchResults.spread(...state, {url: gif.url, id: gif.id});
-            }
-            return searchResults;
+            // let searchResults = [];
+            // let results = action.payload.data;
+            // for (let gif of results) {
+            //     console.log(gif);
+            //     searchResults.spread(...state, {url: gif.url, id: gif.id});
+            // }
+            return action.payload.data;
         default:
             return state;
     };
@@ -96,8 +96,7 @@ const favoriteReducer = (state = [], action) => {
     switch (action.type) {
         case "ADD_FAVORITE":
             console.log(`Trying to add ${action.payload} to favorites`);
-            state.spread(...state, action.payload);
-            return state;
+            return [...state, action.payload];
 
         case "REMOVE_FAVORITE":
             console.log(`Trying to remove ${action.payload} from favorites`);
@@ -113,7 +112,8 @@ const favoriteReducer = (state = [], action) => {
 
 const store = createStore(
     combineReducers({
-      
+        searchReducer,
+        favoriteReducer
     }),
     applyMiddleware(sagaMiddleware, logger),
   );
