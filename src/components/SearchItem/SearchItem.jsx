@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import SearchItem from '../SearchItem/SearchItem';
+// import SearchItem from '../SearchItem/SearchItem';
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
