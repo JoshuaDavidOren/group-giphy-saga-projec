@@ -12,3 +12,10 @@ CREATE TABLE "category" (
 -- Default categories. You may change them :)
 INSERT INTO "category" ("name")
 VALUES ('funny'), ('cohort'), ('cartoon'), ('nsfw'), ('meme');
+
+-- CREATE "favorites" table linked to "category" table by foreign key
+CREATE TABLE "favorites" (
+    "id" SERIAL PRIMARY KEY,
+    "url" VARCHAR (100),
+    "category_id" INT REFERENCES "category" ("id")
+);
