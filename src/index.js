@@ -23,7 +23,7 @@ function* watcherSaga() {
 //reducers go here
 const gifReducer = (state = '', action) => {
     switch (action.type === 'GET_GIF') {
-
+        
     }
 }
 
