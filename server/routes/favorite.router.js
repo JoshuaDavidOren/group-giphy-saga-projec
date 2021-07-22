@@ -11,8 +11,8 @@ router.get('/:search', (req, res) => {
   axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=7&offset=0&rating=pg-13&lang=en`
   )
   .then((response) => {
-    console.log(response.data.data.images.fixed_height_small.url);
-    res.send(response.map((element) => element.data.data.images.fixed_height_small.url))
+    console.log(response.data.data.images.fixed_height.url);
+    res.send(response.map((element) => element.data.data.images.fixed_height.url))
   })
   .catch((err) => {
     console.log('Error GETing giphs from GIPHY',err);

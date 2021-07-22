@@ -17,9 +17,9 @@ function* watcherSaga() {
 }
 
 // Saga's go here
-function* getGiphys() {
+function* getGiphys(search) {
     try {
-        const giphyResponse = yield axios.get('/api');
+        const giphyResponse = yield axios.get(`/api/favorite/${search}`);
         yield put({type: 'GET_GIF', payload: giphyResponse.data});
     }
     catch(error) {
