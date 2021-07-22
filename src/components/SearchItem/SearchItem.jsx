@@ -16,7 +16,7 @@ function SearchItem(item) {
         console.log('Adding to favorites', item);
         dispatch({
             type: 'ADD_FAVORITE',
-            payload: item
+            payload: item.url
         });
     };
 

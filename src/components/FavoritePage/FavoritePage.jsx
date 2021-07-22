@@ -10,9 +10,18 @@ import axios from 'axios';
 import FavoriteItem from '../FavoriteItem/FavoriteItem';
 
 function FavoritePage() {
+    const [favoriteItem, setFavoriteItem] = useState([]);
+    const favoriteReducer = useSelector(store => store.favoriteReducer);
 
     return (
-
+        <>
+        <Grid container spacing={3}>
+        {favoriteReducer.map((data, index) => {
+            return (
+            <FavoriteItem key={index} item={data}/>
+            )})}
+        </Grid>
+        </>
     );
 };
 
