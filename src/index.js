@@ -23,7 +23,7 @@ function* getGiphys(searchQuery) { // takes searchQuery from searchPage input an
     // console.log('in getGiphys', searchQuery.payload); test function to make sure data is correct
     try {
         const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}`);
-        console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
+        // console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); test function to make sure data is correct
         yield put({type: 'POST_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
     }
     catch(error) {
