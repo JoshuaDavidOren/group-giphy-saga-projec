@@ -55,15 +55,18 @@ function EditCategories(item) {
 
     const addCategory = () => {
         postCategory(newCategory);
+        setNewCategory("");
     } //end addCategory
 
     const handleDelete = () => {
         deleteCategory(categoryId);
+        setNewCategory("");
     } //end addCategory
 
     const updateCategory = () => {
         console.log('categoryList', categoryList);
         putCategory(categoryId, newCategory);
+        setNewCategory("");
     } //end updateCategory
 
     const getCategories = () => {
