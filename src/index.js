@@ -14,7 +14,9 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
     yield takeEvery('FETCH_GIF', getGiphys); // listens for FETCH_GIF requests, which are sent from searchPage
-    yield takeEvery('ADD_FAVORITE', gifFavorite)
+    yield takeEvery('ADD_FAVORITE', gifFavorite);
+    yield takeEvery('GET_CATEGORIES', getCategories);
+    yield takeEvery('ADD_CATEGORY', addCategory);
     // yield takeEvery('ADD_FAVORITE', getFavorites);
     // yield takeEvery('')
 };
@@ -63,6 +65,28 @@ function* getFavorites() {
     }
     catch (error) {
         console.log('Error getting favorites', error);
+    };
+};
+
+//GETs categories list from db
+function* getCategories() {
+    try {
+        const catResponse = yield axios.get('/api/category')
+        // Need to add spot for SET_CATEGORIES to be called
+        yield put({type: 'SET_CATEGORIES', payload: catResponse.data});
+    }
+    catch (error) {
+        console.log('Error getting favorites', error);
+    };
+};
+
+function* addCategory(action) {
+    try {
+        yield call(axios.post, '/api/category', action.payload);
+        
+    }
+    catch(error) {
+        console.log('Error trying to pick favorite', error);
     };
 };
 
@@ -115,7 +139,6 @@ const favoriteReducer = (state = [], action) => {
 
 
 // Store instance
-
 const storeInstance = createStore(
     combineReducers({
         searchReducer,
@@ -124,7 +147,7 @@ const storeInstance = createStore(
     applyMiddleware(sagaMiddleware, logger),
   );
   
-  sagaMiddleware.run(watcherSaga);
+sagaMiddleware.run(watcherSaga);
 
 
 
