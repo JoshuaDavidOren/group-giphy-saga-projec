@@ -17,7 +17,7 @@ const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
     yield takeEvery('FETCH_GIF', getGiphys);
     yield takeEvery('ADD_FAVORITE', getFavorites);
-    yield takeEvery('GET_GIF', getGiphys);
+    yield takeEvery('GET_GIF', postGiphys);
 
     // yield takeEvery('')
 }
@@ -28,20 +28,17 @@ function* getGiphys(search) {
     console.log('HELLO WORLD');
     try {
         const giphyResponse = yield axios.get(`/api/favorite/${search.payload}`);
-        console.log('DATA vvv');
-        console.log(giphyResponse.data.data);
-        console.log(giphyResponse.data.data[0].url);
-        console.log('DATA ^^^');
-        yield put({type: 'GET_GIF', payload: giphyResponse.data});
+        yield put({type: 'GET_GIF', payload: giphyResponse.data.data});
     }
     catch(error) {
         console.log('Error in getGiphys', error);
     }
 }
 
-function* postGiphys() {
+function* postGiphys(action) {
     try {
-        yield call(axios.post('/', action.payload));
+        console.log(action.payload)
+        yield call(axios.post('/', action.payload.data));
         yield put({type: 'FETCH_GIF'});
     }
     catch(error) {
@@ -86,21 +83,11 @@ function* gifCategory() {
 
 
 //reducers go here
-const searchReducer = (state = '', action) => {
+const searchReducer = (state = [], action) => {
     switch (action.type) {
         case "GET_GIF":
             console.log('Getting GIF', action.payload);
-            // I commented out the code that was mutating the state.
-            // For now, let's pass the database response out directly without doing any processing until we know it works.
-            
-            let searchResults = [];
-            let results = action.payload    ;
-            for (let gif of results) {
-                console.log(gif);
-                searchResults.push({url: gif.url, id: gif.id});
-            }
-            console.log(state); 
-            return action.payload;
+            return [...state, action.payload];
         default:
             return state;
     };
