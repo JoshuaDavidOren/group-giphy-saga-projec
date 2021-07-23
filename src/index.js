@@ -14,6 +14,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
     yield takeEvery('FETCH_GIF', getGiphys); // listens for FETCH_GIF requests, which are sent from searchPage
+    yield takeEvery('ADD_FAVORITE', gifFavorite)
     // yield takeEvery('ADD_FAVORITE', getFavorites);
     // yield takeEvery('')
 };
@@ -45,8 +46,8 @@ function* postGiphys(action) { // saga for posting our retrieved GIFs to the DOM
 // saga for when favorite is picked
 function* gifFavorite(action) {
     try {
-        yield call(axios.post, '/', action.payload);
-        yield put({type: 'ADD_FAVORITE'});
+        yield call(axios.post, '/api/favorite', action.payload);
+        
     }
     catch(error) {
         console.log('Error trying to pick favorite', error);
@@ -99,9 +100,9 @@ const searchReducer = (state = [], action) => {
 
 const favoriteReducer = (state = [], action) => {
     switch (action.type) {
-        case "ADD_FAVORITE":
-            console.log(`Trying to add ${action.payload} to favorites`);
-            return [...state, action.payload];
+        // case "ADD_FAVORITE":
+        //     console.log(`Trying to add ${action.payload} to favorites`);
+        //     return [...state, action.payload];
 
         case "REMOVE_FAVORITE":
             console.log(`Trying to remove ${action.payload} from favorites`);

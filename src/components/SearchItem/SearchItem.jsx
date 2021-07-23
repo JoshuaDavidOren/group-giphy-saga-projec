@@ -25,7 +25,7 @@ function SearchItem(item) {
         }
         if (category > 0) {  dispatch({
             type: 'ADD_FAVORITE',
-            payload: {url: item.url, catId: category}   
+            payload: {url: item.url, category_id: category}   
         });
       }
     };
