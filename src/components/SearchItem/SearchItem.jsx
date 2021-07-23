@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 // import SearchItem from '../SearchItem/SearchItem';
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({root: {flexGrow: 1},paper: {padding: t
 
 function SearchItem(item) {
     const [searchItem, setSearchItem] = useState([]);
-    const classes = useStyles();
     const dispatch = useDispatch();
-
+    const classes = useStyles();
+    
 
     const addFavorite = (item) => {
         console.log('Adding to favorites', item);
