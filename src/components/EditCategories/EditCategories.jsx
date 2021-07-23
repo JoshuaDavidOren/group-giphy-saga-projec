@@ -30,10 +30,13 @@ function EditCategories(item) {
     const classes = useStyles();
     const [age, setAge] = useState('');
     const [newCategory, setNewCategory] = useState('');
+    const [categoryId, setCategoryId] = useState('');
     const [open, setOpen] = useState(false);
   
     const handleChange = (event) => {
-        setNewCategory(event.target.value);
+        let categoryObject = event.target.value;
+        setNewCategory(categoryObject.name);
+        setCategoryId(categoryObject.id);
     };
   
     const handleClose = () => {
@@ -51,32 +54,49 @@ function EditCategories(item) {
     }, []);
 
     const addCategory = () => {
+        postCategory(newCategory);
+    } //end addCategory
+
+    const handleDelete = () => {
+        deleteCategory(categoryId);
+    } //end addCategory
+
+    const updateCategory = () => {
         console.log('categoryList', categoryList);
-    }
+        putCategory(categoryId, newCategory);
+    } //end updateCategory
 
     const getCategories = () => {
         dispatch({type: 'GET_CATEGORIES'});
-        console.log('in getCategories of EditCategories:', categoryList);
+        console.log('in getCategories:');
     } //end getCategories
 
-    const postCategory = () => {
-        dispatch({type: 'POST_CATEGORY'});
-        console.log('in postCategory of EditCategories:', categoryList);
+    const postCategory = (catName) => {
+        dispatch({type: 'POST_CATEGORY', payload: catName});
+        console.log('in postCategory:', catName);
     } //end postCategory
 
-    const putCategory = () => {
-        dispatch({type: 'PUT_CATEGORY'});
-        console.log('in putCategory of EditCategories:', categoryList);
+    const putCategory = (catId, catName) => {
+        dispatch({type: 'PUT_CATEGORY', payload: {id: catId, name: catName}});
+        console.log('in putCategory:', catId, catName);
     } //end putCategory
 
-    const deleteCategory = () => {
-        dispatch({type: 'DELETE_CATEGORY'});
-        console.log('in deleteCategory of EditCategories:', categoryList);
+    const deleteCategory = (catId) => {
+        dispatch({type: 'DELETE_CATEGORY', payload: catId});
+        console.log('in deleteCategory:', catId);
     } //end deleteCategory
-    console.log("before return",categoryList);
+
     return (
         <div>
             <TextField style={{ width: "400px" }} label="new category" variant="outlined" value={newCategory} onChange={(event) => setNewCategory(event.target.value)}/>
+            <Button
+              style={{ width: "180px", height: "42px" }}
+              variant="contained"
+              color="primary"
+              onClick={() => addCategory(item)}
+            >
+              Add Category
+            </Button>
             <Button className={classes.button} onClick={handleOpen}>
                 Open the select
             </Button>
@@ -91,11 +111,8 @@ function EditCategories(item) {
                 value={newCategory}
                 onChange={handleChange}
                 >
-                <MenuItem value="">
-                    <em>None</em>
-                </MenuItem>
                 {categoryList.map((category) => {
-                    return (<MenuItem key={category.id} value={category.name}>{category.name}</MenuItem>)
+                    return (<MenuItem key={category.id} value={{name: category.name, id: category.id}}>{category.name}</MenuItem>)
                 })}
                 </Select>
             </FormControl>
@@ -103,9 +120,17 @@ function EditCategories(item) {
               style={{ width: "180px", height: "42px" }}
               variant="contained"
               color="primary"
-              onClick={() => addCategory(item)}
+              onClick={() => updateCategory(item)}
             >
-              Add Category
+              Update Category
+            </Button>
+            <Button
+              style={{ width: "180px", height: "42px" }}
+              variant="contained"
+              color="primary"
+              onClick={() => handleDelete(item)}
+            >
+              Delete Category
             </Button>
         </div>
     );
