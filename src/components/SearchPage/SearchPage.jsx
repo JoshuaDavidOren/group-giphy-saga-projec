@@ -26,7 +26,7 @@ function SearchPage() {
         <Grid container spacing={3}>
         {searcher.map((testItem) => {
     return (
-    <SearchItem key={testItem.id} url={testItem.url} />
+    <SearchItem key={testItem.id} url={testItem.url} title={testItem.title} />
     );})}
         </Grid>
         </>
