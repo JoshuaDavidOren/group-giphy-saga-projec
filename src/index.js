@@ -139,10 +139,9 @@ const favoriteReducer = (state = [], action) => {
 
 const categoryReducer = (state = [], action) => {
     switch (action.type) {
-        // case "ADD_CATEGORY":
-        //     console.log(`Trying to add ${action.payload} to category`);
-        //     return [...state, action.payload];//might need to change
-        
+        case "SET_CATEGORIES":
+            // console.log("categories from db:", action.payload);
+            return action.payload;
         //This is a stretch goal
         case "EDIT_CATEGORY":
             console.log(`Trying to edit ${action.payload} category`);
@@ -151,7 +150,6 @@ const categoryReducer = (state = [], action) => {
         case "DELETE_CATEGORY":
             console.log(`Trying to delete ${action.payload} category`);
             return state;
-
         default:
             return state;
     }
