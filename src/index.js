@@ -13,6 +13,10 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 // The watcher saga
 const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
+    yield takeEvery('GET_CATEGORIES', getCategories);
+    yield takeEvery('POST_CATEGORY', addCategory);
+    yield takeEvery('PUT_CATEGORY', updateCategory);
+    yield takeEvery('DELETE_CATEGORY', deleteCategory);
     yield takeEvery('ADD_FAVORITE', gifFavorite)
     yield takeEvery('GET_FAVORITES', getFavorites);
     yield takeEvery('SEARCH', searchGiphys);
@@ -92,6 +96,48 @@ function* getFavorites() {
     };
 };
 
+//GETs categories list from db
+function* getCategories() {
+    try {
+        const catResponse = yield axios.get('/api/category')
+        // Need to add spot for SET_CATEGORIES to be called
+        yield put({type: 'SET_CATEGORIES', payload: catResponse.data});
+    }
+    catch (error) {
+        console.log('Error getting favorites', error);
+    };
+};
+
+function* addCategory(action) {
+    try {
+        yield call(axios.post, '/api/category', action.payload);
+        yield put({type: 'GET_CATEGORIES'});
+    }
+    catch(error) {
+        console.log('Error trying to pick favorite', error);
+    };
+};
+
+function* updateCategory(action) {
+    try {
+        yield call(axios.put, `/api/category/${action.payload.id}`, action.payload);
+        yield put({type: 'GET_CATEGORIES'});
+    }
+    catch(error) {
+        console.log('Error trying to pick favorite', error);
+    };
+};
+
+function* deleteCategory(action) {
+    try {
+        yield call(axios.delete, `/api/category/${action.payload.id}`);
+        yield put({type: 'GET_CATEGORIES'});
+    }
+    catch(error) {
+        console.log('Error trying to pick favorite', error);
+    };
+};
+
 //saga for the category
 function* gifCategory() {
     try {
@@ -161,10 +207,9 @@ return state;
 
 const categoryReducer = (state = [], action) => {
     switch (action.type) {
-        // case "ADD_CATEGORY":
-        //     console.log(`Trying to add ${action.payload} to category`);
-        //     return [...state, action.payload];//might need to change
-        
+        case "SET_CATEGORIES":
+            // console.log("categories from db:", action.payload);
+            return action.payload;
         //This is a stretch goal
         case "EDIT_CATEGORY":
             console.log(`Trying to edit ${action.payload} category`);
@@ -173,25 +218,25 @@ const categoryReducer = (state = [], action) => {
         case "DELETE_CATEGORY":
             console.log(`Trying to delete ${action.payload} category`);
             return state;
-
         default:
             return state;
     }
 }
 
 // Store instance
-
 const storeInstance = createStore(
     combineReducers({
         searchReducer,
         favoriteReducer,
-        showFavoritesReducer,
-        categoryReducer
+        categoryManager,
+        categoryReducer,
+        showFavoritesReducer
+
      }),
     applyMiddleware(sagaMiddleware, logger),
   );
   
-  sagaMiddleware.run(watcherSaga);
+sagaMiddleware.run(watcherSaga);
 
 
 
