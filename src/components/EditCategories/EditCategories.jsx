@@ -72,7 +72,7 @@ function EditCategories(item) {
     } //end getCategories
 
     const postCategory = (catName) => {
-        dispatch({type: 'POST_CATEGORY', payload: catName});
+        dispatch({type: 'POST_CATEGORY', payload: {name: catName}});
         console.log('in postCategory:', catName);
     } //end postCategory
 
@@ -82,7 +82,7 @@ function EditCategories(item) {
     } //end putCategory
 
     const deleteCategory = (catId) => {
-        dispatch({type: 'DELETE_CATEGORY', payload: catId});
+        dispatch({type: 'DELETE_CATEGORY', payload: {id: catId}});
         console.log('in deleteCategory:', catId);
     } //end deleteCategory
 

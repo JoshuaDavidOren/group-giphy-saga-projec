@@ -14,7 +14,9 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
     yield takeEvery('GET_CATEGORIES', getCategories);
-    yield takeEvery('ADD_CATEGORY', addCategory);
+    yield takeEvery('POST_CATEGORY', addCategory);
+    yield takeEvery('PUT_CATEGORY', updateCategory);
+    yield takeEvery('DELETE_CATEGORY', deleteCategory);
     yield takeEvery('SEARCH', searchGiphys);
     yield takeEvery('FETCH_NEXTPAGE', getNextGiphys); // listens for FETCH_GIF_NEXTPAGE requests, which are sent from searchPage
     yield takeEvery('FETCH_LASTPAGE', getPreviousGiphys); // listens for FETCH_GIF_LASTPAGE requests, which are sent from searchPage
@@ -110,6 +112,26 @@ function* getCategories() {
 function* addCategory(action) {
     try {
         yield call(axios.post, '/api/category', action.payload);
+        
+    }
+    catch(error) {
+        console.log('Error trying to pick favorite', error);
+    };
+};
+
+function* updateCategory(action) {
+    try {
+        yield call(axios.put, `/api/category/${action.payload.id}`, action.payload);
+        
+    }
+    catch(error) {
+        console.log('Error trying to pick favorite', error);
+    };
+};
+
+function* deleteCategory(action) {
+    try {
+        yield call(axios.delete, `/api/category/${action.payload.id}`);
         
     }
     catch(error) {
