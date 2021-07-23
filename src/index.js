@@ -21,12 +21,12 @@ function* watcherSaga() {
     // yield takeEvery('ADD_FAVORITE', getFavorites);
     // yield takeEvery('')
 };
-
 // Saga's go here
 function* searchGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
     // console.log('in getGiphys', searchQuery.payload); //test function to make sure data is correct
     try {
         const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}/search`);
+        //console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
         console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
         yield put({type: 'DISPLAY_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
     }
@@ -34,7 +34,6 @@ function* searchGiphys(searchQuery) { // takes searchQuery from searchPage input
         console.log('Error in getGiphys', error);
     };
 };
-
 function* getPreviousGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
     // console.log('in getGiphys', searchQuery.payload); //test function to make sure data is correct
     try {
@@ -46,8 +45,6 @@ function* getPreviousGiphys(searchQuery) { // takes searchQuery from searchPage 
         console.log('Error in getGiphys', error);
     };
 };
-
-
 function* getNextGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
     // console.log('in getGiphys', searchQuery.payload); //test function to make sure data is correct
     try {
@@ -188,9 +185,7 @@ const storeInstance = createStore(
     combineReducers({
         searchReducer,
         favoriteReducer,
-
-        showFavoritesReducer
-    }),
+        showFavoritesReducer,
         categoryReducer
      }),
     applyMiddleware(sagaMiddleware, logger),
