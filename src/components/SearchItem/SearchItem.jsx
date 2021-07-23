@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// import SearchItem from '../SearchItem/SearchItem';
-import TextField from "@material-ui/core/TextField";
+import { useDispatch } from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -17,11 +15,6 @@ function SearchItem(item) {
     const dispatch = useDispatch();
     const classes = useStyles();
 
-    const testFunction = () => {
-      console.log(item.url);
-    }
-    
-
     // const addFavorite = (item) => {
     //     console.log('Adding to favorites', item);
     //     dispatch({
@@ -35,7 +28,7 @@ function SearchItem(item) {
         <Card>
           <Paper className={classes.paper}>
           <CardMedia
-            style = {{ height: 250}}
+          style = {{ height: 250}}
           component="img"
           alt="Contemplative Reptile"
           height="140"
@@ -47,7 +40,7 @@ function SearchItem(item) {
               style={{ width: "170px", height: "42px" }}
               variant="contained"
               color="primary"
-              onClick={testFunction}
+              //onClick={}
             >
               Add to Favorites
             </Button>
