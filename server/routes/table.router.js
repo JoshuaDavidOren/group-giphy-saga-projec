@@ -6,10 +6,9 @@ const router = express.Router();
 // GET data from favorites table
 router.get('/', (req, res) => {
     
-    pool.query('SELECT * FROM "favorites"')
+    pool.query('SELECT * FROM "favorites";')
     .then((result) => {
       res.send(result.rows); 
-      res.sendStatus(200);
     })
     .catch((err) => {
       console.log('Error GETing favorites data', err)
