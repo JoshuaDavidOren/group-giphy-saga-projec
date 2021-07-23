@@ -73,8 +73,8 @@ function* postGiphys(action) { // saga for posting our retrieved GIFs to the DOM
 // saga for when favorite is picked
 function* gifFavorite(action) {
     try {
-        yield call(axios.post, '/', action.payload);
-        yield put({type: 'ADD_FAVORITE'});
+        yield call(axios.post, '/api/favorite', action.payload);
+        
     }
     catch(error) {
         console.log('Error trying to pick favorite', error);
@@ -137,9 +137,9 @@ const displacementReducer = (state = [], action) => {
 
 const favoriteReducer = (state = [], action) => {
     switch (action.type) {
-        case "ADD_FAVORITE":
-            console.log(`Trying to add ${action.payload} to favorites`);
-            return [...state, action.payload];
+        // case "ADD_FAVORITE":
+        //     console.log(`Trying to add ${action.payload} to favorites`);
+        //     return [...state, action.payload];
 
         case "REMOVE_FAVORITE":
             console.log(`Trying to remove ${action.payload} from favorites`);
@@ -150,14 +150,34 @@ const favoriteReducer = (state = [], action) => {
     };
 };
 
+const categoryReducer = (state = [], action) => {
+    switch (action.type) {
+        // case "ADD_CATEGORY":
+        //     console.log(`Trying to add ${action.payload} to category`);
+        //     return [...state, action.payload];//might need to change
+        
+        //This is a stretch goal
+        case "EDIT_CATEGORY":
+            console.log(`Trying to edit ${action.payload} category`);
+            return [...state, action.payload];//might need to change
+        //This is a stretch goal
+        case "DELETE_CATEGORY":
+            console.log(`Trying to delete ${action.payload} category`);
+            return state;
+
+        default:
+            return state;
+    }
+}
 
 // Store instance
 
 const storeInstance = createStore(
     combineReducers({
         searchReducer,
-        favoriteReducer
-    }),
+        favoriteReducer,
+        categoryReducer
+     }),
     applyMiddleware(sagaMiddleware, logger),
   );
   
