@@ -3,13 +3,55 @@ const express = require('express');
 const pool = require('../modules/pool');
 require('dotenv').config();
 const router = express.Router();
+let offset = 0;
 
-
-// GET Seach results from giphy
-router.get('/:search', (req, res) => {
+// GET Search results from giphy
+router.get('/:search/search', (req, res) => {
+  offset = 0;
   const search = req.params.search;
-  // console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=50&offset=0&rating=pg-13&lang=en`); test function to make sure data is correct
-  axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=50&offset=0&rating=pg-13&lang=en`
+  // console.log('DATA vvv');
+  // console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&offset=${offset}`);
+  // console.log('DATA ^^^');
+  //console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}`); //test function to make sure data is correct
+  axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&offset=${offset}`
+  )
+  .then((response) => {
+    // console.log(response.data);
+    res.send(response.data)
+  })
+  .catch((err) => {
+    console.log('Error GETing giphs from GIPHY',err);
+    res.sendStatus(500);
+  });
+});
+
+router.get('/:search/next', (req, res) => {
+  offset += 50;
+  const search = req.params.search;
+  // console.log('DATA vvv');
+  // console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&offset=${offset}`);
+  // console.log('DATA ^^^');
+  //console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}`); //test function to make sure data is correct
+  axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&offset=${offset}`
+  )
+  .then((response) => {
+    // console.log(response.data);
+    res.send(response.data)
+  })
+  .catch((err) => {
+    console.log('Error GETing giphs from GIPHY',err);
+    res.sendStatus(500);
+  });
+});
+
+router.get('/:search/last', (req, res) => {
+  offset -= 50;
+  const search = req.params.search;
+  // console.log('DATA vvv');
+  // console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&offset=${offset}`);
+  // console.log('DATA ^^^');
+  //console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}`); //test function to make sure data is correct
+  axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&offset=${offset}`
   )
   .then((response) => {
     // console.log(response.data);
@@ -23,6 +65,20 @@ router.get('/:search', (req, res) => {
 
 
 
+
+// return all favorite images
+// GET data from favorites table
+router.get('/', (req, res) => {
+  const qText = 'SELECT * FROM "favorites"';
+  pool.query(qText)
+  .then((result) => {res.send(result.rows); 
+  })
+  .catch((err) => {
+    console.log('Error GETing favorites data', err)
+    res.sendStatus(500)
+  })
+  res.sendStatus(200);
+});
 
 // add a new favorite
 // POST gif to favorites table
