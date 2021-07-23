@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import { useSelector } from "react-redux";
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import { put, takeEvery, call } from 'redux-saga/core/effects';
-import createSagaMiddleware from 'redux-saga/core';
 import logger from 'redux-logger';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import FavoriteItem from '../FavoriteItem/FavoriteItem';
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+
 
 function FavoritePage() {
-    const [favoriteItem, setFavoriteItem] = useState([]);
-    const favoriteReducer = useSelector(store => store.favoriteReducer);
+    const history = useHistory();
+    const favorites = useSelector(store => store.favoriteReducer);
+    const gotoHomePage = () => {
+        history.push('/');
+    };
 
     return (
         <>
+        <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={gotoHomePage}>Home</Button>
         <Grid container spacing={3}>
-        {favoriteReducer.map((data, index) => {
+        {favorites.map((favItem) => {
             return (
-            <FavoriteItem key={index} item={data}/>
-            )})}
+                <FavoriteItem key={favItem.id} url={favItem.url} title={favItem.title} category={favItem.category_id}/>
+        );})}
         </Grid>
         </>
     );
