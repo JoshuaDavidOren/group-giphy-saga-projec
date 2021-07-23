@@ -14,13 +14,17 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 // The watcher saga
 const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
-    yield takeEvery('FETCH_GIF', getGiphys)
+    yield takeEvery('FETCH_GIF', getGiphys);
     yield takeEvery('ADD_FAVORITE', getFavorites);
+    yield takeEvery('GET_GIF', getGiphys);
+
     // yield takeEvery('')
 }
 
 // Saga's go here
 function* getGiphys(search) {
+    console.log(search);
+    console.log('HELLO WORLD');
     try {
         const giphyResponse = yield axios.get(`/api/favorite/${search}`);
         yield put({type: 'GET_GIF', payload: giphyResponse.data});
@@ -77,19 +81,20 @@ function* gifCategory() {
 
 
 //reducers go here
-const searchReducer = (state = [], action) => {
+const searchReducer = (state = '', action) => {
     switch (action.type) {
         case "GET_GIF":
             console.log('Getting GIF', action.payload);
             // I commented out the code that was mutating the state.
             // For now, let's pass the database response out directly without doing any processing until we know it works.
             
-            // let searchResults = [];
-            // let results = action.payload.data;
-            // for (let gif of results) {
-            //     console.log(gif);
-            //     searchResults.spread(...state, {url: gif.url, id: gif.id});
-            // }
+            let searchResults = [];
+            let results = action.payload;
+            for (let gif of results) {
+                console.log(gif);
+                searchResults.push({url: gif.url, id: gif.id});
+            }
+            console.log(state); 
             return action.payload;
         default:
             return state;

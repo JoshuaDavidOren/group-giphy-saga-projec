@@ -27,10 +27,7 @@ function SearchPage() {
         <TextField style={{ width: "400px" }} id="outlined-search" label="Search GIPHY" type="search" variant="outlined" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}/>
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={search}>Search</Button>
         <Grid container spacing={3}>
-        {searchReducer.map((data, index) => {
-            return (
-            <SearchItem key={index} item={data}/>
-            )})}
+        
         </Grid>
         </>
     );
