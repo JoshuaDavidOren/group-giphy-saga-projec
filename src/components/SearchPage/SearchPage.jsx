@@ -17,7 +17,7 @@ function SearchPage() {
     const search = () => {
         console.log(`Searching for ${searchTerm} on GIPHY`);
         dispatch({
-            type: 'GET_GIF',
+            type: 'FETCH_GIF',
             payload: searchTerm
         });
     };

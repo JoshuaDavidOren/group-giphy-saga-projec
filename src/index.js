@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import axios from 'axios';
+    require('dotenv').config();
 // import { response } from 'express';
 // Import saga middleware
 import createSagaMiddleware from 'redux-saga';
@@ -23,10 +24,14 @@ function* watcherSaga() {
 
 // Saga's go here
 function* getGiphys(search) {
-    console.log(search);
+    console.log(search.payload);
     console.log('HELLO WORLD');
     try {
-        const giphyResponse = yield axios.get(`/api/favorite/${search}`);
+        const giphyResponse = yield axios.get(`/api/favorite/${search.payload}`);
+        console.log('DATA vvv');
+        console.log(giphyResponse.data.data);
+        console.log(giphyResponse.data.data[0].url);
+        console.log('DATA ^^^');
         yield put({type: 'GET_GIF', payload: giphyResponse.data});
     }
     catch(error) {
@@ -89,7 +94,7 @@ const searchReducer = (state = '', action) => {
             // For now, let's pass the database response out directly without doing any processing until we know it works.
             
             let searchResults = [];
-            let results = action.payload;
+            let results = action.payload    ;
             for (let gif of results) {
                 console.log(gif);
                 searchResults.push({url: gif.url, id: gif.id});
