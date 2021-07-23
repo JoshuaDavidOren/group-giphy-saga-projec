@@ -137,12 +137,32 @@ const favoriteReducer = (state = [], action) => {
     };
 };
 
+const categoryReducer = (state = [], action) => {
+    switch (action.type) {
+        // case "ADD_CATEGORY":
+        //     console.log(`Trying to add ${action.payload} to category`);
+        //     return [...state, action.payload];//might need to change
+        
+        //This is a stretch goal
+        case "EDIT_CATEGORY":
+            console.log(`Trying to edit ${action.payload} category`);
+            return [...state, action.payload];//might need to change
+        //This is a stretch goal
+        case "DELETE_CATEGORY":
+            console.log(`Trying to delete ${action.payload} category`);
+            return state;
+
+        default:
+            return state;
+    }
+}
 
 // Store instance
 const storeInstance = createStore(
     combineReducers({
         searchReducer,
-        favoriteReducer
+        favoriteReducer,
+        categoryReducer
     }),
     applyMiddleware(sagaMiddleware, logger),
   );
