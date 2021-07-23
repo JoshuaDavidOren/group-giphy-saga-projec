@@ -6,20 +6,36 @@ import SearchItem from '../SearchItem/SearchItem';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import BottomNavigation from '@material-ui/core/BottomNavigation';
 
 function SearchPage() {
+
     const [searchTerm, setSearchTerm] = useState('')
     const dispatch = useDispatch();
     const history = useHistory();
     const searcher = useSelector(store => store.searchReducer);
     const gotoFavoritesPage = () => {
         history.push('/favorites');
-    }
+    };
+   
+    const paginationNext = () => {
+        dispatch({
+            type: 'FETCH_NEXTPAGE',
+            payload: searchTerm
+        })
+    };
+    const paginationLast = () => {
+        dispatch({
+            type: 'FETCH_LASTPAGE',
+            payload: searchTerm
+        })
+    };
+
 
     const search = () => {
         // console.log(`Searching for ${searchTerm} on GIPHY`); test function to make sure data is correct
         dispatch({
-            type: 'FETCH_GIF',
+            type: 'SEARCH',
             payload: searchTerm
         });
     };
@@ -35,6 +51,10 @@ function SearchPage() {
                 <SearchItem key={testItem.id} url={testItem.url} title={testItem.title} />
         );})}
         </Grid>
+        <BottomNavigation style={{width: '100%', position: 'fixed', bottom: 0}}>
+            <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={paginationLast}>Previous Page</Button>
+            <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={paginationNext}>Next Page</Button>
+        </BottomNavigation>
         </>
     );
 };

@@ -13,23 +13,51 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 // The watcher saga
 const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
-    yield takeEvery('FETCH_GIF', getGiphys); // listens for FETCH_GIF requests, which are sent from searchPage
+    yield takeEvery('SEARCH', searchGiphys);
+    yield takeEvery('FETCH_NEXTPAGE', getNextGiphys); // listens for FETCH_GIF_NEXTPAGE requests, which are sent from searchPage
+    yield takeEvery('FETCH_LASTPAGE', getPreviousGiphys); // listens for FETCH_GIF_LASTPAGE requests, which are sent from searchPage
     // yield takeEvery('ADD_FAVORITE', getFavorites);
     // yield takeEvery('')
 };
 
 // Saga's go here
-function* getGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
+function* searchGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
     // console.log('in getGiphys', searchQuery.payload); //test function to make sure data is correct
     try {
-        const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}`);
-        console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
+        const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}/search`);
+        //console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
         yield put({type: 'DISPLAY_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
     }
     catch(error) {
         console.log('Error in getGiphys', error);
     };
 };
+
+function* getPreviousGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
+    // console.log('in getGiphys', searchQuery.payload); //test function to make sure data is correct
+    try {
+        const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}/last`);
+        //console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
+        yield put({type: 'DISPLAY_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
+    }
+    catch(error) {
+        console.log('Error in getGiphys', error);
+    };
+};
+
+
+function* getNextGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
+    // console.log('in getGiphys', searchQuery.payload); //test function to make sure data is correct
+    try {
+        const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}/next`);
+        //console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
+        yield put({type: 'DISPLAY_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
+    }
+    catch(error) {
+        console.log('Error in getGiphys', error);
+    };
+};
+
 
 function* postGiphys(action) { // saga for posting our retrieved GIFs to the DOM
     try {
@@ -96,6 +124,16 @@ const searchReducer = (state = [], action) => {
             return state;
     };
 };
+
+const displacementReducer = (state = [], action) => {
+    let offset = 0
+    switch (action.type) {
+        case "DISPLACE":
+            return offset+=50;
+        default:
+            return state;
+    }
+}
 
 const favoriteReducer = (state = [], action) => {
     switch (action.type) {
