@@ -17,6 +17,8 @@ function* watcherSaga() {
     yield takeEvery('POST_CATEGORY', addCategory);
     yield takeEvery('PUT_CATEGORY', updateCategory);
     yield takeEvery('DELETE_CATEGORY', deleteCategory);
+    yield takeEvery('ADD_FAVORITE', gifFavorite)
+    yield takeEvery('GET_FAVORITES', getFavorites);
     yield takeEvery('SEARCH', searchGiphys);
     yield takeEvery('FETCH_NEXTPAGE', getNextGiphys); // listens for FETCH_GIF_NEXTPAGE requests, which are sent from searchPage
     yield takeEvery('FETCH_LASTPAGE', getPreviousGiphys); // listens for FETCH_GIF_LASTPAGE requests, which are sent from searchPage
@@ -88,7 +90,7 @@ function* gifFavorite(action) {
 //GETs favorite database and sets favorites
 function* getFavorites() {
     try {
-        const favResponse = yield axios.get('/')
+        const favResponse = yield axios.get('/api/table')
         // Need to add spot for SET_FAVORITES to be called
         yield put({type: 'SET_FAVORITES', payload: favResponse.data});
     }
@@ -196,6 +198,16 @@ const favoriteReducer = (state = [], action) => {
     };
 };
 
+
+const showFavoritesReducer = (state = [], action) => {
+    console.log('action payload', action.payload);
+    if( action.type === 'SET_FAVORITES'){
+    return state = [...state, action.payload], 
+    console.log('what is this',state[0]);
+}
+return state;
+}
+
 const categoryReducer = (state = [], action) => {
     switch (action.type) {
         case "SET_CATEGORIES":
@@ -219,7 +231,8 @@ const storeInstance = createStore(
     combineReducers({
         searchReducer,
         favoriteReducer,
-        categoryReducer
+        categoryReducer,
+        showFavoritesReducer
      }),
     applyMiddleware(sagaMiddleware, logger),
   );
