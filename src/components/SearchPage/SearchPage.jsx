@@ -25,9 +25,9 @@ function SearchPage() {
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={search}>Search</Button>
         <Grid container spacing={3}>
         {searcher.map((testItem) => {
-    return (
-    <SearchItem key={testItem.id} url={testItem.url} title={testItem.title} />
-    );})}
+            return (
+                <SearchItem key={testItem.id} url={testItem.url} title={testItem.title} />
+        );})}
         </Grid>
         </>
     );
