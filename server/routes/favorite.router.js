@@ -8,8 +8,8 @@ const router = express.Router();
 // GET Seach results from giphy
 router.get('/:search', (req, res) => {
   const search = req.params.search;
-  console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=7&offset=0&rating=pg-13&lang=en`);
-  axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=7&offset=0&rating=pg-13&lang=en`
+  console.log(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=50&offset=0&rating=pg-13&lang=en`);
+  axios.get(`${process.env.SEARCH_GIPH_ENDPOINT}?api_key=${process.env.GIPH_API_KEY}&q=${search}&limit=50 &offset=0&rating=pg-13&lang=en`
   )
   .then((response) => {
     console.log(response.data);

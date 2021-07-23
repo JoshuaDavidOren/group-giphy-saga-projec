@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import axios from 'axios';
-    require('dotenv').config();
+require('dotenv').config();
 // import { response } from 'express';
 // Import saga middleware
 import createSagaMiddleware from 'redux-saga';
@@ -15,20 +15,19 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 // The watcher saga
 const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
-    yield takeEvery('FETCH_GIF', getGiphys);
-    yield takeEvery('ADD_FAVORITE', getFavorites);
-    yield takeEvery('GET_GIF', postGiphys);
-
+    yield takeEvery('FETCH_GIF', getGiphys); // searches giphy for gif input from searchpage
+    //yield takeEvery('POST_GIFS', postGiphys); // now posting retrieved gifs to searchReducer to show up on DOM
+    // yield takeEvery('ADD_FAVORITE', getFavorites);
     // yield takeEvery('')
 }
 
 // Saga's go here
-function* getGiphys(search) {
-    console.log(search.payload);
-    console.log('HELLO WORLD');
+function* getGiphys(searchQuery) {
+    console.log('in getGiphys', searchQuery.payload);
     try {
-        const giphyResponse = yield axios.get(`/api/favorite/${search.payload}`);
-        yield put({type: 'GET_GIF', payload: giphyResponse.data.data});
+        const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}`);
+        console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post');
+        yield put({type: 'POST_GIFS', payload: giphyResponse.data.data});
     }
     catch(error) {
         console.log('Error in getGiphys', error);
@@ -37,8 +36,8 @@ function* getGiphys(search) {
 
 function* postGiphys(action) {
     try {
-        console.log(action.payload)
-        yield call(axios.post('/', action.payload.data));
+        console.log('attempting to post', action.payload)
+        yield call(axios.post('/', action.payload));
         yield put({type: 'FETCH_GIF'});
     }
     catch(error) {
@@ -85,9 +84,17 @@ function* gifCategory() {
 //reducers go here
 const searchReducer = (state = [], action) => {
     switch (action.type) {
-        case "GET_GIF":
+        case "POST_GIFS":
             console.log('Getting GIF', action.payload);
-            return [...state, action.payload];
+            let returnArray = [];
+            let results = action.payload;
+            for (let x = 0; x < results.length; x++) {
+                console.log(results[x].url);
+                returnArray.push({id: results[x].id, url: results[x].images.fixed_height.url});
+                //results[x].images.fixed_height_still.url
+                console.log(returnArray);
+            }
+            return returnArray
         default:
             return state;
     };

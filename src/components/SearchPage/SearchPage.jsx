@@ -8,22 +8,21 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import CardMedia from '@material-ui/core/CardMedia';
+import Card from '@material-ui/core/Card';
 
 function SearchPage() {
     const [searchTerm, setSearchTerm] = useState('')
     const dispatch = useDispatch();
-    const searcher = useSelector(store => store.searchReducer[0]);
+    const searcher = useSelector(store => store.searchReducer);
 
 
     const mapTest = () => {
         console.log(searcher)
-        for (let x = 0; x < searcher.length; x++) {
-            console.log(searcher[x].url);
         }
-    }
 
     const search = () => {
-        console.log(`Searching for ${searchTerm} on GIPHY`);
+        // console.log(`Searching for ${searchTerm} on GIPHY`);
         dispatch({
             type: 'FETCH_GIF',
             payload: searchTerm
@@ -43,7 +42,10 @@ function SearchPage() {
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={search}>Search</Button>
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={mapTest}>MAP ME</Button>
         <Grid container spacing={3}>
-    
+        {searcher.map((testItem) => {
+    return (
+    <SearchItem key={testItem.id} url={testItem.url} />
+    );})}
         </Grid>
         </>
     );
