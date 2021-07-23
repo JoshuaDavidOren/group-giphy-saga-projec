@@ -13,6 +13,7 @@ function SearchPage() {
     const history = useHistory();
     const searcher = useSelector(store => store.searchReducer);
     const gotoFavoritesPage = () => {
+        dispatch({type: 'GET_FAVORITES'  })
         history.push('/favorites');
     }
 

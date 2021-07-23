@@ -15,7 +15,7 @@ const sagaMiddleware = createSagaMiddleware();
 function* watcherSaga() {
     yield takeEvery('FETCH_GIF', getGiphys); // listens for FETCH_GIF requests, which are sent from searchPage
     yield takeEvery('ADD_FAVORITE', gifFavorite)
-    // yield takeEvery('ADD_FAVORITE', getFavorites);
+    yield takeEvery('GET_FAVORITES', getFavorites);
     // yield takeEvery('')
 };
 
@@ -57,7 +57,7 @@ function* gifFavorite(action) {
 //GETs favorite database and sets favorites
 function* getFavorites() {
     try {
-        const favResponse = yield axios.get('/')
+        const favResponse = yield axios.get('/api/table')
         // Need to add spot for SET_FAVORITES to be called
         yield put({type: 'SET_FAVORITES', payload: favResponse.data});
     }
@@ -113,13 +113,23 @@ const favoriteReducer = (state = [], action) => {
     };
 };
 
+const showFavoritesReducer = (state = [], action) => {
+    console.log('action payload', action.payload);
+    if( action.type === 'SET_FAVORITES'){
+    return state = [...state, action.payload], 
+    console.log('what is this',state[0]);
+}
+return state;
+}
+
 
 // Store instance
 
 const storeInstance = createStore(
     combineReducers({
         searchReducer,
-        favoriteReducer
+        favoriteReducer,
+        showFavoritesReducer
     }),
     applyMiddleware(sagaMiddleware, logger),
   );

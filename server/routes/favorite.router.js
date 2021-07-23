@@ -22,19 +22,7 @@ router.get('/:search', (req, res) => {
 });
 
 
-// return all favorite images
-// GET data from favorites table
-router.get('/', (req, res) => {
-  const qText = 'SELECT * FROM "favorites"';
-  pool.query(qText)
-  .then((result) => {res.send(result.rows); 
-  })
-  .catch((err) => {
-    console.log('Error GETing favorites data', err)
-    res.sendStatus(500)
-  })
-  res.sendStatus(200);
-});
+
 
 // add a new favorite
 // POST gif to favorites table
