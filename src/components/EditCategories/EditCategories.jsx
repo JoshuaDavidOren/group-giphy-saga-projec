@@ -101,7 +101,6 @@ function EditCategories(item) {
               Add Category
             </Button>
             <Button className={classes.button} onClick={handleOpen}>
-                Open the select
             </Button>
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>

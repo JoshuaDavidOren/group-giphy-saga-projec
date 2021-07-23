@@ -52,7 +52,7 @@ function SearchPage() {
         <TextField style={{ width: "400px" }} id="outlined-search" label="Search GIPHY" type="search" variant="outlined" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}/>
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={search}>Search</Button>
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={gotoFavoritesPage}>Favorites</Button>
-        <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={() => setEditCategories(!editCategories)}>Edit categories?</Button>
+        <Button style={{ width: "25px", height: "25px" , margin: "5px"}} variant="contained" color="primary" onClick={() => setEditCategories(!editCategories)}>{editCategories ? "-" : "+"}</Button>
         {editCategories ? <EditCategories></EditCategories> : <></>}
         <Grid container spacing={2}>
         {searcher.map((testItem) => {
