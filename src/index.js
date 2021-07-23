@@ -202,7 +202,7 @@ const favoriteReducer = (state = [], action) => {
 const showFavoritesReducer = (state = [], action) => {
     console.log('action payload', action.payload);
     if( action.type === 'SET_FAVORITES'){
-    return state = [...state, action.payload], 
+    return state = action.payload;
     console.log('what is this',state[0]);
 }
 return state;
