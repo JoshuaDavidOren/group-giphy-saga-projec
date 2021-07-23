@@ -65,6 +65,7 @@ router.get('/:search/last', (req, res) => {
 
 
 
+
 // return all favorite images
 // GET data from favorites table
 router.get('/', (req, res) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
@@ -10,11 +10,16 @@ import Grid from "@material-ui/core/Grid";
 
 
 function FavoritePage() {
+    
     const history = useHistory();
-    const favorites = useSelector(store => store.favoriteReducer);
+    const favorites = useSelector(store => store.showFavoritesReducer);
     const gotoHomePage = () => {
         history.push('/');
     };
+
+    useEffect(() => {    
+        favorites  }, []);
+    
 
     return (
         <>
@@ -22,7 +27,7 @@ function FavoritePage() {
         <Grid container spacing={3}>
         {favorites.map((favItem) => {
             return (
-                <FavoriteItem key={favItem.id} url={favItem.url} title={favItem.title} category={favItem.category_id}/>
+                <FavoriteItem key={favItem.id} url={favItem.url} category={favItem.category_id}/>
         );})}
         </Grid>
         </>
