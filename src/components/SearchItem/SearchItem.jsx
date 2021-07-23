@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
+import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles((theme) => ({root: {flexGrow: 1},paper: {padding: theme.spacing(2), textAlign: "center", color: theme.palette.text.secondary}})); // materialUI stuff
 
@@ -29,17 +30,18 @@ function SearchItem(item) {
         });
       }
     };
+  
 
     return (
-        <Grid item style={{height: "450px" }} id={item.id}> 
+      <>
+        <Grid item style={{height: "520px" }} id={item.id}> 
         <Card>
           <Paper className={classes.paper}>
           <CardMedia
           className={item.title}
-          style = {{ height: 250}}
+          style = {{ height: '350px'}}
           component="img"
           alt={item.title}
-          height="140"
           src={item.url}
           title={item.title}
         />
@@ -68,6 +70,7 @@ function SearchItem(item) {
           </Paper>
           </Card>
         </Grid>
+        </>
     );
 };
 
