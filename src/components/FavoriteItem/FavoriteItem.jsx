@@ -19,15 +19,13 @@ function FavoriteItem(favItem) {
     };
 
     return (
-      <Grid item style={{height: "350px" }} id={favItem.id}> 
-      <Card>
+      <Grid item style={{height: "550px" }} id={favItem.id}> 
         <Paper className={classes.paper}>
         <CardMedia
+        style={{height: "550px" }}
         className={favItem.title}
-        style = {{ height: 250}}
         component="img"
         alt={favItem.title}
-        height="140"
         src={favItem.url}
         title={favItem.title}
       />
@@ -41,7 +39,6 @@ function FavoriteItem(favItem) {
             Remove From Favorites
           </Button>
         </Paper>
-        </Card>
       </Grid>
     );
 };
