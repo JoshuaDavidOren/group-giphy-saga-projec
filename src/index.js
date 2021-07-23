@@ -20,11 +20,11 @@ function* watcherSaga() {
 
 // Saga's go here
 function* getGiphys(searchQuery) { // takes searchQuery from searchPage input and passes it into the saga
-    // console.log('in getGiphys', searchQuery.payload); test function to make sure data is correct
+    // console.log('in getGiphys', searchQuery.payload); //test function to make sure data is correct
     try {
         const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}`);
-        // console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); test function to make sure data is correct
-        yield put({type: 'POST_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
+        console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
+        yield put({type: 'DISPLAY_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
     }
     catch(error) {
         console.log('Error in getGiphys', error);
@@ -81,7 +81,7 @@ function* gifCategory() {
 //reducers go here
 const searchReducer = (state = [], action) => {
     switch (action.type) {
-        case "POST_GIFS": // listening for POST_GIFS actions
+        case "DISPLAY_GIFS": // listening for DISPLAY_GIFS actions
             // console.log('Getting GIF', action.payload); test function to make sure data is correct
             let returnArray = []; // empty array since having state as default array breaks everything
             let results = action.payload; // variable to hold data
@@ -89,7 +89,7 @@ const searchReducer = (state = [], action) => {
                 //console.log(results[x].title); test function to make sure data is correct
                 returnArray.push({id: results[x].id, url: results[x].images.fixed_height.url, title: results[x].title, category_id: 0}); // pushes an object with a unique id and url into our array
                 //results[x].images.fixed_height_still.url test function to make sure data is correct
-                //console.log(returnArray); test function to make sure data is correct
+                // console.log(returnArray);// test function to make sure data is correct
             };
             return returnArray // sends our new array back as a response when called
         default:
