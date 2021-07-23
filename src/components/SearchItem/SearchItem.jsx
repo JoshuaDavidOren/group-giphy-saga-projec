@@ -15,6 +15,7 @@ function SearchItem(item) {
     const dispatch = useDispatch();
     const classes = useStyles();
 
+
     // const addFavorite = (item) => {
     //     console.log('Adding to favorites', item);
     //     dispatch({
@@ -28,16 +29,17 @@ function SearchItem(item) {
         <Card>
           <Paper className={classes.paper}>
           <CardMedia
+          className={item.title}
           style = {{ height: 250}}
           component="img"
-          alt="Contemplative Reptile"
+          alt={item.title}
           height="140"
           src={item.url}
-          title="Contemplative Reptile"
+          title={item.title}
         />
             <br />
             <Button
-              style={{ width: "170px", height: "42px" }}
+              style={{ width: "180px", height: "42px" }}
               variant="contained"
               color="primary"
               //onClick={}

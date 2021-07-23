@@ -23,7 +23,7 @@ function* getGiphys(searchQuery) { // takes searchQuery from searchPage input an
     // console.log('in getGiphys', searchQuery.payload); test function to make sure data is correct
     try {
         const giphyResponse = yield axios.get(`/api/favorite/${searchQuery.payload}`);
-        // console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); test function to make sure data is correct
+        console.log('getGiphys has payload:', giphyResponse.data.data, 'now attempting to post'); //test function to make sure data is correct
         yield put({type: 'POST_GIFS', payload: giphyResponse.data.data}); // sends our response data over to POST_GIFTS
     }
     catch(error) {
@@ -86,8 +86,8 @@ const searchReducer = (state = [], action) => {
             let returnArray = []; // empty array since having state as default array breaks everything
             let results = action.payload; // variable to hold data
             for (let x = 0; x < results.length; x++) { // loops through our data
-                // console.log(results[x].url); test function to make sure data is correct
-                returnArray.push({id: results[x].id, url: results[x].images.fixed_height.url}); // pushes an object with a unique id and url into our array
+                //console.log(results[x].title); test function to make sure data is correct
+                returnArray.push({id: results[x].id, url: results[x].images.fixed_height.url, title: results[x].title, category_id: 0}); // pushes an object with a unique id and url into our array
                 //results[x].images.fixed_height_still.url test function to make sure data is correct
                 //console.log(returnArray); test function to make sure data is correct
             };
