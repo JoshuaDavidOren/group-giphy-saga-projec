@@ -15,7 +15,8 @@ import Fade from '@material-ui/core/Fade';
 
 
 function SearchPage() {
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
+    const [editCategories, setEditCategories] = useState(false);
     const dispatch = useDispatch();
     const history = useHistory();
     const searcher = useSelector(store => store.searchReducer);
@@ -51,7 +52,8 @@ function SearchPage() {
         <TextField style={{ width: "400px" }} id="outlined-search" label="Search GIPHY" type="search" variant="outlined" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)}/>
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={search}>Search</Button>
         <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={gotoFavoritesPage}>Favorites</Button>
-        <EditCategories></EditCategories>
+        <Button style={{ width: "150px", height: "55px" }} variant="contained" color="primary" onClick={() => setEditCategories(!editCategories)}>Edit categories?</Button>
+        {editCategories ? <EditCategories></EditCategories> : <></>}
         <Grid container spacing={2}>
         {searcher.map((testItem) => {
             return (

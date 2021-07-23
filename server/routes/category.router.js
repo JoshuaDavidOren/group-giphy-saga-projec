@@ -49,8 +49,8 @@ router.put('/:catId', (req, res) => {
   const newCategory = req.body;
 
   //id of existing category to be updated
-  const catId = req.params.favId;
-
+  const catId = req.params.catId;
+  console.log(catId);
   //query
   const queryText = `
     UPDATE "category"
@@ -77,8 +77,8 @@ router.put('/:catId', (req, res) => {
 //delete a category
 router.delete('/:catId', (req, res) => {
   //id of category to be deleted
-  const catId = req.params.favId;
-  
+  const catId = req.params.catId;
+  console.log('in delete route', catId);
   //query
   const queryText = `
   DELETE FROM "category"
