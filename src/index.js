@@ -228,10 +228,8 @@ const storeInstance = createStore(
     combineReducers({
         searchReducer,
         favoriteReducer,
-        categoryManager,
         categoryReducer,
         showFavoritesReducer
-
      }),
     applyMiddleware(sagaMiddleware, logger),
   );
