@@ -114,7 +114,7 @@ function* getCategories() {
 function* addCategory(action) {
     try {
         yield call(axios.post, '/api/category', action.payload);
-        
+        yield put({type: 'GET_CATEGORIES'});
     }
     catch(error) {
         console.log('Error trying to pick favorite', error);
@@ -124,7 +124,7 @@ function* addCategory(action) {
 function* updateCategory(action) {
     try {
         yield call(axios.put, `/api/category/${action.payload.id}`, action.payload);
-        
+        yield put({type: 'GET_CATEGORIES'});
     }
     catch(error) {
         console.log('Error trying to pick favorite', error);
@@ -134,7 +134,7 @@ function* updateCategory(action) {
 function* deleteCategory(action) {
     try {
         yield call(axios.delete, `/api/category/${action.payload.id}`);
-        
+        yield put({type: 'GET_CATEGORIES'});
     }
     catch(error) {
         console.log('Error trying to pick favorite', error);
